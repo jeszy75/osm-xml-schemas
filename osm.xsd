@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:attribute name="ref" type="xs:positiveInteger"/>
+
+    <xs:attribute name="timestamp" type="xs:dateTime"/>
+
+    <xs:attributeGroup name="commonAttrs">
+        <xs:attribute name="id" type="xs:positiveInteger" use="required"/>
+        <xs:attribute name="visible" type="xs:boolean" use="optional"/>
+        <xs:attribute name="version" type="xs:positiveInteger" use="optional"/>
+        <xs:attribute name="changeset" type="xs:integer" use="optional"/>
+        <xs:attribute ref="timestamp" use="optional"/>
+        <xs:attribute name="uid" type="xs:integer" use="optional"/>
+        <xs:attribute name="user" type="xs:string" use="optional"/>
+    </xs:attributeGroup>
+
+    <xs:group name="zeroOrMoreTags">
+        <xs:sequence>
+            <xs:element name="tag" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                    <xs:attribute name="k" type="xs:string" use="required"/>
+                    <xs:attribute name="v" type="xs:string" use="required"/>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+    </xs:group>
+
+    <xs:element name="osm" type="Osm"/>
+
+    <xs:complexType name="Osm">
+        <xs:sequence>
+            <xs:element name="bounds" type="Bounds"/>
+            <xs:element name="node" minOccurs="0" maxOccurs="unbounded" type="Node"/>
+            <xs:element name="way" minOccurs="0" maxOccurs="unbounded" type="Way"/>
+            <xs:element name="relation" minOccurs="0" maxOccurs="unbounded" type="Relation"/>
+        </xs:sequence>
+        <xs:attribute name="version" type="xs:string" use="required"/>
+        <xs:attribute name="generator" type="xs:string" use="required"/>
+        <xs:attribute ref="timestamp" use="optional"/>
+        <xs:attribute name="copyright" type="xs:string" use="optional"/>
+        <xs:attribute name="attribution" type="xs:string" use="optional"/>
+        <xs:attribute name="license" type="xs:string" use="optional"/>
+    </xs:complexType>
+
+    <xs:complexType name="Bounds">
+        <xs:attribute name="minlat" type="xs:decimal" use="required"/>
+        <xs:attribute name="maxlat" type="xs:decimal" use="required"/>
+        <xs:attribute name="minlon" type="xs:decimal" use="required"/>
+        <xs:attribute name="maxlon" type="xs:decimal" use="required"/>
+    </xs:complexType>
+
+    <xs:complexType name="Node">
+        <xs:sequence>
+            <xs:group ref="zeroOrMoreTags"/>
+        </xs:sequence>
+        <xs:attributeGroup ref="commonAttrs"/>
+        <xs:attribute name="lat" type="xs:decimal" use="required"/>
+        <xs:attribute name="lon" type="xs:decimal" use="required"/>
+    </xs:complexType>
+
+    <xs:complexType name="Way">
+        <xs:sequence>
+            <xs:element name="nd" type="Nd" maxOccurs="unbounded"/>
+            <xs:group ref="zeroOrMoreTags"/>
+        </xs:sequence>
+        <xs:attributeGroup ref="commonAttrs"/>
+    </xs:complexType>
+
+    <xs:complexType name="Nd">
+        <xs:attribute ref="ref" use="required"/>
+    </xs:complexType>
+
+    <xs:complexType name="Relation">
+        <xs:sequence>
+            <xs:element name="member" type="Member" maxOccurs="unbounded"/>
+            <xs:group ref="zeroOrMoreTags"/>
+        </xs:sequence>
+        <xs:attributeGroup ref="commonAttrs"/>
+    </xs:complexType>
+
+    <xs:complexType name="Member">
+        <xs:attribute name="type" type="MemberType" use="required"/>
+        <xs:attribute ref="ref" use="required"/>
+        <xs:attribute name="role" type="xs:string" use="required"/>
+    </xs:complexType>
+
+    <xs:simpleType name="MemberType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="node"/>
+            <xs:enumeration value="relation"/>
+            <xs:enumeration value="way"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+</xs:schema>
