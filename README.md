@@ -13,6 +13,7 @@ For example, let's grab the OSM XML extract for Budapest from [here](https://dow
 curl https://download.bbbike.org/osm/bbbike/Budapest/Budapest.osm.gz -O
 gunzip Budapest.osm.gz
 xmllint --stream --schema osm.xsd Budapest.osm
+xmllint --stream --relaxng osm.rng Budapest.osm
 ```
 
 Note that the `--stream` command line option must be specified in order to read the input document in streaming mode.
