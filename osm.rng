@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grammar xmlns="http://relaxng.org/ns/structure/1.0"
+    datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
+    <start>
+        <ref name="osm"/>
+    </start>
+    <define name="timestampAttr">
+        <attribute name="timestamp">
+            <data type="dateTime"/>
+        </attribute>
+    </define>
+    <define name="refAttr">
+        <attribute name="ref">
+            <data type="nonNegativeInteger"/>
+        </attribute>
+    </define>
+    <define name="commonAttrs">
+        <attribute name="id">
+            <data type="nonNegativeInteger"></data>
+        </attribute>
+        <optional>
+            <attribute name="visible">
+                <data type="boolean"/>
+            </attribute>
+        </optional>
+        <optional>
+            <attribute name="version">
+                <data  type="positiveInteger"/>
+            </attribute>
+        </optional>
+        <optional>
+            <attribute name="changeset">
+                <data type="nonNegativeInteger"/>
+            </attribute>
+        </optional>
+        <optional>
+            <ref name="timestampAttr"/>
+        </optional>
+        <optional>
+            <attribute name="uid">
+                <data type="nonNegativeInteger"/>
+            </attribute>
+        </optional>
+        <optional>
+            <attribute name="user">
+                <data type="string"/>
+            </attribute>
+        </optional>
+    </define>
+    <define name="zeroOrMoreTags">
+        <zeroOrMore>
+            <element name="tag">
+                <attribute name="k">
+                    <data type="string"/>
+                </attribute>
+                <attribute name="v">
+                    <data type="string"/>
+                </attribute>
+            </element>
+        </zeroOrMore>
+    </define>
+    <define name="zeroOrMoreTagsAndCommonAttrs">
+        <ref name="zeroOrMoreTags"/>
+        <ref name="commonAttrs"/>
+    </define>
+    <define name="osm">
+        <element name="osm">
+            <ref name="bounds"/>
+            <zeroOrMore>
+                <ref name="node"/>
+            </zeroOrMore>
+            <zeroOrMore>
+                <ref name="way"/>
+            </zeroOrMore>
+            <zeroOrMore>
+                <ref name="relation"/>
+            </zeroOrMore>
+            <attribute name="version">
+                <data type="string"/>
+            </attribute>
+            <attribute name="generator">
+                <data type="string"/>
+            </attribute>
+            <optional>
+                <attribute name="copyright">
+                    <data type="string"/>
+                </attribute>
+            </optional>
+            <optional>
+                <attribute name="attribution">
+                    <data type="string"/>
+                </attribute>
+            </optional>
+            <optional>
+                <attribute name="license">
+                    <data type="string"/>
+                </attribute>
+            </optional>
+            <optional>
+                <ref name="timestampAttr"/>
+            </optional>
+        </element>
+    </define>
+    <define name="bounds">
+        <element name="bounds">
+            <attribute name="minlat">
+                <data type="decimal"/>
+            </attribute>
+            <attribute name="maxlat">
+                <data type="decimal"/>
+            </attribute>
+            <attribute name="minlon">
+                <data type="decimal"/>
+            </attribute>
+            <attribute name="maxlon">
+                <data type="decimal"/>
+            </attribute>
+        </element>
+    </define>
+    <define name="node">
+        <element name="node">
+            <ref name="zeroOrMoreTagsAndCommonAttrs"/>
+            <attribute name="lat">
+                <data type="decimal"/>
+            </attribute>
+            <attribute name="lon">
+                <data type="decimal"/>
+            </attribute>
+        </element>
+    </define>
+    <define name="way">
+        <element name="way">
+            <oneOrMore>
+                <ref name="nd"/>
+            </oneOrMore>
+            <ref name="zeroOrMoreTagsAndCommonAttrs"/>
+        </element>
+    </define>
+    <define name="nd">
+        <element name="nd">
+            <ref name="refAttr"/>
+        </element>
+    </define>
+    <define name="relation">
+        <element name="relation">
+            <oneOrMore>
+                <ref name="member"/>
+            </oneOrMore>
+            <ref name="zeroOrMoreTagsAndCommonAttrs"/>
+        </element>
+    </define>
+    <define name="member">
+        <element name="member">
+            <attribute name="type">
+                <choice>
+                    <value>node</value>
+                    <value>relation</value>
+                    <value>way</value>
+                </choice>
+            </attribute>
+            <ref name="refAttr"/>
+            <attribute name="role">
+                <data type="string"/>
+            </attribute>
+        </element>
+    </define>
+</grammar>
