@@ -44,10 +44,10 @@
     </xs:complexType>
 
     <xs:complexType name="Bounds">
-        <xs:attribute name="minlat" type="xs:decimal" use="required"/>
-        <xs:attribute name="maxlat" type="xs:decimal" use="required"/>
-        <xs:attribute name="minlon" type="xs:decimal" use="required"/>
-        <xs:attribute name="maxlon" type="xs:decimal" use="required"/>
+        <xs:attribute name="minlat" type="latitude" use="required"/>
+        <xs:attribute name="maxlat" type="latitude" use="required"/>
+        <xs:attribute name="minlon" type="longitude" use="required"/>
+        <xs:attribute name="maxlon" type="longitude" use="required"/>
     </xs:complexType>
 
     <xs:complexType name="Node">
@@ -55,8 +55,8 @@
             <xs:group ref="zeroOrMoreTags"/>
         </xs:sequence>
         <xs:attributeGroup ref="commonAttrs"/>
-        <xs:attribute name="lat" type="xs:decimal" use="required"/>
-        <xs:attribute name="lon" type="xs:decimal" use="required"/>
+        <xs:attribute name="lat" type="latitude" use="required"/>
+        <xs:attribute name="lon" type="longitude" use="required"/>
     </xs:complexType>
 
     <xs:complexType name="Way">
@@ -90,6 +90,20 @@
             <xs:enumeration value="node"/>
             <xs:enumeration value="relation"/>
             <xs:enumeration value="way"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="latitude">
+        <xs:restriction base="xs:decimal">
+            <xs:minInclusive value="-90"/>
+            <xs:maxInclusive value="90"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="longitude">
+        <xs:restriction base="xs:decimal">
+            <xs:minInclusive value="-180"/>
+            <xs:maxInclusive value="180"/>
         </xs:restriction>
     </xs:simpleType>
 
