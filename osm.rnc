@@ -1,0 +1,54 @@
+start = osm
+timestampAttr = attribute timestamp { xsd:dateTime }
+refAttr = attribute ref { xsd:nonNegativeInteger }
+commonAttrs =
+  attribute id { xsd:nonNegativeInteger },
+  attribute visible { xsd:boolean }?,
+  attribute version { xsd:positiveInteger }?,
+  attribute changeset { xsd:nonNegativeInteger }?,
+  timestampAttr?,
+  attribute uid { xsd:nonNegativeInteger }?,
+  attribute user { xsd:string }?
+zeroOrMoreTags =
+  element tag {
+    attribute k { xsd:string },
+    attribute v { xsd:string }
+  }*
+zeroOrMoreTagsAndCommonAttrs = zeroOrMoreTags, commonAttrs
+osm =
+  element osm {
+    bounds,
+    node*,
+    way*,
+    relation*,
+    attribute version { xsd:string },
+    attribute generator { xsd:string },
+    attribute copyright { xsd:string }?,
+    attribute attribution { xsd:string }?,
+    attribute license { xsd:string }?,
+    timestampAttr?
+  }
+bounds =
+  element bounds {
+    attribute minlat { xsd:decimal },
+    attribute maxlat { xsd:decimal },
+    attribute minlon { xsd:decimal },
+    attribute maxlon { xsd:decimal }
+  }
+node =
+  element node {
+    zeroOrMoreTagsAndCommonAttrs,
+    attribute lat { latitude },
+    attribute lon { longitude }
+  }
+way = element way { nd+, zeroOrMoreTagsAndCommonAttrs }
+nd = element nd { refAttr }
+relation = element relation { member+, zeroOrMoreTagsAndCommonAttrs }
+member =
+  element member {
+    attribute type { "node" | "relation" | "way" },
+    refAttr,
+    attribute role { xsd:string }
+  }
+latitude = xsd:decimal { minInclusive = "-90" maxInclusive = "90" }
+longitude = xsd:decimal { minInclusive = "-180" maxInclusive = "180" }
