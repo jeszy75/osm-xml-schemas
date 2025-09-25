@@ -3,7 +3,7 @@ osm-xml-schemas
 
 XML schemas for the [OSM XML](https://wiki.openstreetmap.org/wiki/OSM_XML) format.
 
-The schemas can be used for validating large XML documents with the command line tool [xmllint](http://xmlsoft.org/xmllint.html) of the [libxml2](http://xmlsoft.org/) library.
+The schemas can be used for validating large XML documents with the command line tool [xmllint](http://xmlsoft.org/xmllint.html) of the [libxml2](https://gitlab.gnome.org/GNOME/libxml2) library.
 
 ## Using the schemas for validation
 
