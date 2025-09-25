@@ -121,10 +121,10 @@
         <element name="node">
             <ref name="zeroOrMoreTagsAndCommonAttrs"/>
             <attribute name="lat">
-                <data type="decimal"/>
+                <ref name="latitude"/>
             </attribute>
             <attribute name="lon">
-                <data type="decimal"/>
+                <ref name="longitude"/>
             </attribute>
         </element>
     </define>
@@ -163,5 +163,17 @@
                 <data type="string"/>
             </attribute>
         </element>
+    </define>
+    <define name="latitude">
+        <data type="decimal">
+            <param name="minInclusive">-90</param>
+            <param name="maxInclusive">90</param>
+        </data>
+    </define>
+    <define name="longitude">
+        <data type="decimal">
+            <param name="minInclusive">-180</param>
+            <param name="maxInclusive">180</param>
+        </data>
     </define>
 </grammar>
