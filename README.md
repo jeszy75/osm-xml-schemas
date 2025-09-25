@@ -16,7 +16,7 @@ xmllint --stream --schema osm.xsd Budapest.osm
 xmllint --stream --relaxng osm.rng Budapest.osm
 ```
 
-Note that the `--stream` command line option must be specified in order to read the input document in streaming mode.
+Note that the `--stream` command line option must be specified to read the input document in streaming mode.
 
 ## Further resources of interest
 
